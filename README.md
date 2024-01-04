@@ -1,5 +1,5 @@
 # tcconfig-builds
-Builds of tcconfig from thombashi/tcconfig
+Builds of tcconfig from thombashi/tcconfig. Using critical bug fix in rglonek/tcconfig.
 
 ## TODO
 
@@ -11,7 +11,7 @@ cat <<'EOF' > maker.sh
 set -e
 apt update && apt -y install git python3 python3-pip curl rename
 cd /opt
-git clone https://github.com/thombashi/tcconfig.git
+git clone https://github.com/rglonek/tcconfig.git
 cd tcconfig/scripts
 ./build_deb_package.sh
 cd /opt/tcconfig/dist
