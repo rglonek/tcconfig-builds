@@ -26,6 +26,7 @@ docker cp maker.sh tcconfig:/opt/maker.sh
 docker exec tcconfig /bin/bash /opt/maker.sh
 docker cp tcconfig:/opt/tcconfig/dist/tcconfig.deb tcconfig-${i}-${PLATFORM}.deb
 docker stop tcconfig
+sleep 5
 done
 EOF
 ```
