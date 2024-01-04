@@ -21,7 +21,7 @@ EOF
 ```bash
 cat <<'EOF' > maker-centos.sh
 set -e
-yum -y install git python3 python3-pip curl
+yum -y install git python3 python3-pip curl --skip-broken
 cd /opt
 git clone https://github.com/rglonek/tcconfig.git
 cd tcconfig/scripts
