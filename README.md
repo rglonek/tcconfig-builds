@@ -21,7 +21,7 @@ EOF
 ```bash
 cat <<'EOF' > maker-centos.sh
 set -e
-yum -y install git python3 python3-pip curl --skip-broken
+yum -y install git python3 python3-pip curl binutils --skip-broken
 cd /opt
 git clone https://github.com/rglonek/tcconfig.git
 cd tcconfig/scripts
@@ -97,6 +97,11 @@ EOF
 ```bash
 cat <<'EOF' > buildall.sh
 set -e
+if [ "${PLATFORM}" = "" ]
+then
+  echo "Set PLATFORM=amd64|arm64"
+  exit 1
+fi
 bash buildubuntu.sh
 bash buildcentos.sh
 EOF
