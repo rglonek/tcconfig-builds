@@ -8,6 +8,8 @@ Builds of tcconfig from thombashi/tcconfig. Using critical bug fix in rglonek/tc
 cat <<'EOF' > maker.sh
 set -e
 apt update && apt -y install git python3 python3-pip curl rename
+VERID=$(grep -Po '(?<=VERSION_ID=")[0-9.a-z]+' /etc/os-release)
+[ "${VERID}" = "18.04" ] && pip3 install --upgrade chardet==4.0.0
 cd /opt
 git clone https://github.com/rglonek/tcconfig.git
 cd tcconfig/scripts
@@ -72,7 +74,7 @@ docker cp maker.sh tcconfig:/opt/maker.sh
 docker exec tcconfig /bin/bash /opt/maker.sh
 docker cp tcconfig:/opt/tcconfig/dist/tcconfig.deb tcconfig-${i}-${PLATFORM}.deb
 docker stop tcconfig
-sleep 5
+sleep 30
 done
 EOF
 ```
@@ -81,14 +83,16 @@ EOF
 ```bash
 cat <<'EOF' > buildcentos.sh
 set -e
-for i in 7 stream8 stream9
+items="7 stream8 stream9"
+[ "${PLATFORM}" = "arm64" ] && items="stream8 stream9"
+for i in $items
 do
 docker run -itd --rm --name tcconfig quay.io/centos/centos:$i
 docker cp maker-centos.sh tcconfig:/opt/maker.sh
 docker exec tcconfig /bin/bash /opt/maker.sh
 docker cp tcconfig:/opt/tcconfig/dist/tcconfig.tgz tcconfig-centos-${i}-${PLATFORM}.tgz
 docker stop tcconfig
-sleep 5
+sleep 30
 done
 EOF
 ```
